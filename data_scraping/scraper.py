@@ -14,12 +14,15 @@ def fetch():
 
 
 def anime_formatter(anime: Any):
+    date = anime.find('span', {"class": 'js-start_date'}).text[4:]
+    formatted_date = f'{date[2:]}/{date[:2]}'
+
     img = anime.find('div', {"class": 'image'}).a.img
     img_src = img['src'] if img and 'src' in img.attrs else img['data-src']
 
     return {
         'title': anime.find('span', {"class": 'js-title'}).text,
-        'start_date': anime.find('span', {"class": 'js-start_date'}).text[4:],
+        'start_date': formatted_date,
         'url': anime.find('div', {"class": 'image'}).a['href'],
         'image': img_src,
     }
@@ -43,4 +46,4 @@ def new_season():
     return season
 
 
-print(new_season())
+print(new_season()[0])
